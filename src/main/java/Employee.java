@@ -1,9 +1,9 @@
 public class Employee {
-    public long id;
-    public String firstName;
-    public String lastName;
-    public String country;
-    public int age;
+    private long id;
+    private String firstName;
+    private String lastName;
+    private String country;
+    private int age;
 
     public Employee() {
         // Пустой конструктор
@@ -26,19 +26,19 @@ public class Employee {
         this.id = id;
     }
 
-    public void setfirsName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public void setlastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = String.valueOf(lastName);
     }
 
-    public void setcountry(String country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
-    public void setage(int age) {
+    public void setAge(int age) {
         this.age = age;
     }
 }

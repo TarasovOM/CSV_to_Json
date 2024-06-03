@@ -12,14 +12,10 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.module.ModuleDescriptor.read;
 
 public class Main {
     static String fileName = "data.csv";
@@ -61,16 +57,16 @@ public class Main {
                         employees.setId(Long.parseLong(node1.getTextContent()));
                     }
                     if (node1.getNodeName() == "firstName") {
-                        employees.setfirsName(node1.getTextContent());
+                        employees.setFirstName(node1.getTextContent());
                     }
                     if (node1.getNodeName() == "lastName") {
-                        employees.setlastName(node1.getTextContent());
+                        employees.setLastName(node1.getTextContent());
                     }
                     if (node1.getNodeName() == "country") {
-                        employees.setcountry(node1.getTextContent());
+                        employees.setCountry(node1.getTextContent());
                     }
                     if (node1.getNodeName() == "age") {
-                        employees.setage(Integer.parseInt(node1.getTextContent()));
+                        employees.setAge(Integer.parseInt(node1.getTextContent()));
                     }
                 }
                 listXML.add(employees);
@@ -90,11 +86,10 @@ public class Main {
     }
 
     private static String listToJson(List<Employee> list) {
-
         Type listType = new TypeToken<List<Employee>>() {
         }.getType();
         GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
+        Gson gson = builder.setPrettyPrinting().create();
         String json = gson.toJson(list, listType);
         return json;
     }
@@ -103,7 +98,6 @@ public class Main {
 
         try {
             CSVReader reader = new CSVReader(new FileReader(fileName));
-            //List<String[]> allRows = reader.readAll();
             ColumnPositionMappingStrategy<Employee> strategy = new ColumnPositionMappingStrategy<>();
             strategy.setType(Employee.class);
             strategy.setColumnMapping(columnMapping);
@@ -128,6 +122,3 @@ public class Main {
         return json;
     }
 }
-
-
-
