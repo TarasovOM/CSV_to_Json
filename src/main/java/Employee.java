@@ -21,5 +21,25 @@ public class Employee {
     public String toString() {
         return STR."id= '\{this.id}', Name: '\{this.firstName}', lastName: '\{this.lastName}' country: '\{this.country}', age: '\{this.age}'";
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setfirsName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setlastName(String lastName) {
+        this.lastName = String.valueOf(lastName);
+    }
+
+    public void setcountry(String country) {
+        this.country = country;
+    }
+
+    public void setage(int age) {
+        this.age = age;
+    }
 }
 

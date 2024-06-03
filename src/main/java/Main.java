@@ -29,12 +29,12 @@ public class Main {
         String[] columnMapping = {"id", "firstName", "lastName", "country", "age"};
 
         List<Employee> list = parseCSV(columnMapping, fileName);
-        //list.forEach(System.out::println);
-
         String json = listToJson(list);
         writeString(json);
 
-       parseXML("data.xml");
+        List<Employee> xmlList = parseXML("data.xml");
+        String xmlJson = listToJson(xmlList);
+        writeString2(xmlJson);
     }
 
     private static List<Employee> parseXML(String s) throws IOException, SAXException, ParserConfigurationException {
@@ -42,30 +42,42 @@ public class Main {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(new File(s));
-
         Node root = doc.getDocumentElement();
         NodeList nodeList = root.getChildNodes();
+        List<Employee> listXML = new ArrayList<>();
 
         for (int i = 0; i < nodeList.getLength(); i++) {
-
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-
-                System.out.println(STR."Текущий узел: \{node.getNodeName()}");
                 Element employee = (Element) node;
                 NodeList nodeList1 = employee.getChildNodes();
+                Employee employees = new Employee();
                 for (int a = 1; a < nodeList1.getLength(); a++) {
                     Node node1 = nodeList1.item(a);
-                    if(node1.getNodeName() == "#text") {continue;}
-                    System.out.println(STR."Текущий узел: \{node1.getNodeName()}");
-                    System.out.println(STR."Текущий узел: \{node1.getTextContent()}");
-
-                }                 
+                    if (node1.getNodeName() == "#text") {
+                        continue;
+                    }
+                    if (node1.getNodeName() == "id") {
+                        employees.setId(Long.parseLong(node1.getTextContent()));
+                    }
+                    if (node1.getNodeName() == "firstName") {
+                        employees.setfirsName(node1.getTextContent());
+                    }
+                    if (node1.getNodeName() == "lastName") {
+                        employees.setlastName(node1.getTextContent());
+                    }
+                    if (node1.getNodeName() == "country") {
+                        employees.setcountry(node1.getTextContent());
+                    }
+                    if (node1.getNodeName() == "age") {
+                        employees.setage(Integer.parseInt(node1.getTextContent()));
+                    }
+                }
+                listXML.add(employees);
             }
         }
-        return null;
+        return listXML;
     }
-
 
     private static String writeString(String json) {
         try (FileWriter file = new FileWriter("data.json")) {
@@ -104,6 +116,16 @@ public class Main {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static String writeString2(String json) {
+        try (FileWriter file = new FileWriter("data2.json")) {
+            file.write(json.toString());
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 }
 
